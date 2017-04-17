@@ -1,0 +1,41 @@
+{
+  "name": "ScreepsBot",
+  "version": "0.0.1",
+  "description": "An intelligent bot for Screeps",
+  "contributors": [
+    {
+      "name": "Jon Wheeler",
+      "email": ""
+    },
+    {
+      "name": "Chris Johns",
+      "email": "christopher.s.johns@gmail.com"
+    }
+  ],
+  "main": "main.js",
+  "screeps_mod": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Manchen08/ScreepsBot"
+  },
+  "bugs": {
+    "url": "https://github.com/Manchen08/ScreepsBot/issues"
+  },
+  "keywords": [
+    "screeps",
+    "bot"
+  ],
+  "scripts": {
+    "postinstall": "typings install"
+  },
+  "dependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-ts": "^6.0.0-beta.11",
+    "screeps-typescript-declarations": "^4.2.1",
+    "typescript": "^2.1.6"
+  }
+}
