@@ -1,5 +1,7 @@
 .tscache
 .idea
+.js_temp
 dist
 node_modules
 typings
+screeps-config.json
