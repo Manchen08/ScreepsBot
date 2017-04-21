@@ -1,4 +1,4 @@
-import {roomData} from "./roomData";
+import {roomData} from "./classes.roomData";
 export class gameData {
     public initialRoom: string;
 
