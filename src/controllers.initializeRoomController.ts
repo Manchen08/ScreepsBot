@@ -2,10 +2,11 @@
 import {terrainMapping} from "./classes.terrainMapping";
 
 export class initializeRoom {
-    public constructor(roomName: string) {
-
+    public static initialize(roomName: string) {
         if (!Memory || !Memory.rooms || !Memory.rooms[roomName] || typeof Memory.rooms[roomName] === "undefined") {
-            Memory.rooms = {};
+            Memory.rooms = {
+                roomName
+            };
             Memory.rooms[roomName] = {
                 terrain: terrainMapping.mapTerrain(roomName)
             };

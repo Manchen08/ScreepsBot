@@ -1,8 +1,10 @@
 /// <reference path="_references.ts" />
 import {initializeRoom} from "./controllers.initializeRoomController";
+import {strategicLandscape} from "./controllers.strategicLandscapeController";
 
 export class roomLevel1 {
     public constructor(roomName: string) {
-        new initializeRoom(roomName);
+        initializeRoom.initialize(roomName);
+        strategicLandscape.initialize(roomName);
     }
 }
