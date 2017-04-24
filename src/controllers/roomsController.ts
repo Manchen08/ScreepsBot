@@ -1,5 +1,5 @@
-/// <reference path="./_references.ts" />
-import {objectivesController} from './controllers.objectivesController';
+/// <reference path="../_references.ts" />
+import {objectivesController} from '../controllers/objectivesController';
 
 interface _Game extends Game{
     ownedRooms(): { [roomName: string]: Room }

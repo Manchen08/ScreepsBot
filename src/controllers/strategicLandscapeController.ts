@@ -1,5 +1,5 @@
-/// <reference path="_references.ts" />
-import {Terrain} from "./interfaces.Terrain";
+/// <reference path="../_references.ts" />
+import {Terrain} from "../interfaces/Terrain";
 
 export class strategicLandscape {
     

@@ -1,5 +1,5 @@
-/// <reference path="_references.ts" />
-import {terrainMapping} from "./classes.terrainMapping";
+/// <reference path="../_references.ts" />
+import {terrainMapping} from "../classes/terrainMapping";
 
 export class initializeRoom {
     public static initialize(roomName: string) {

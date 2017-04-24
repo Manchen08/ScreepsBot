@@ -1,8 +1,8 @@
 .tscache
 .idea
 *.iml
-.js_temp
-dist
+.js_temp/
+dist/
 node_modules
 typings
 screeps-config.json

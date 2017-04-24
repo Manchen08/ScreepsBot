@@ -1,4 +1,4 @@
-import {Creep} from "./interfaces.Creep";
+import {Creep} from "./Creep";
 
 interface CreepBuilder extends Creep {
 

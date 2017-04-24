@@ -1,7 +1,7 @@
-/// <reference path="./_references.ts" />
+/// <reference path="../_references.ts" />
 
-import {TerrainTotals} from "./interfaces.TerrainTotals";
-import {Terrain} from "./interfaces.Terrain";
+import {TerrainTotals} from "../interfaces/TerrainTotals";
+import {Terrain} from "../interfaces/Terrain";
 
 export class terrainMapping {
     public static mapTerrain(roomName: string): Terrain {

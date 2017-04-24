@@ -1,6 +1,6 @@
-/// <reference path="_references.ts" />
-import {roomLevel1} from './objectives.roomLevel1';
-import {roomLevel2} from './objectives.roomLevel2';
+/// <reference path="../_references.ts" />
+import {roomLevel1} from '../objectives/roomLevel1';
+import {roomLevel2} from '../objectives/roomLevel2';
 
 export class objectivesController {
 
