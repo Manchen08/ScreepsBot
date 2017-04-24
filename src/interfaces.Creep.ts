@@ -1,4 +1,4 @@
-export interface creep {
+export interface Creep {
     role: string,
     subRole: string,
     action: string,

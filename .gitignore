@@ -1,5 +1,6 @@
 .tscache
 .idea
+*.iml
 .js_temp
 dist
 node_modules

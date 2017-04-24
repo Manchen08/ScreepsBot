@@ -1,17 +1,17 @@
 /// <reference path="./_references.ts" />
 
-import {terrainTotals} from "./interfaces.terrainTotals";
-import {terrain} from "./interfaces.terrain";
+import {TerrainTotals} from "./interfaces.TerrainTotals";
+import {Terrain} from "./interfaces.Terrain";
 
 export class terrainMapping {
-    public mapTerrain(roomName: string): terrain {
-        return { totals: this.terrainTotals(roomName) };
+    public static mapTerrain(roomName: string): Terrain {
+        return { totals: terrainMapping.terrainTotals(roomName) };
     }
 
-    private terrainTotals(roomName: string): terrainTotals {
+    private static terrainTotals(roomName: string): TerrainTotals {
         let roomLookAtArea: LookAtResultMatrix | LookAtResultWithPos[] = Game.rooms[roomName].lookAtArea(0,0,50,50,true);
         let terrainArea: LookAtResultWithPos[] = <LookAtResultWithPos[]>roomLookAtArea;
-        let terrainType: terrainTotals = { plains: 0, swamps: 0, walls: 0, total: 0 };
+        let terrainType: TerrainTotals = { plains: 0, swamps: 0, walls: 0, total: 0 };
 
         for(let i=0;i<terrainArea.length;i++) {
             let spot = terrainArea[i];

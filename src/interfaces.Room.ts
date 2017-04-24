@@ -1,5 +1,4 @@
 /// <reference path="./_references.ts" />
 
-export class roomMemory {
-
+export interface Room {
 }

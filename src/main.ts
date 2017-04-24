@@ -1,14 +1,9 @@
 /// <reference path="_references.ts" />
+import {roomsController} from "./controllers.roomsController";
+import {gamePrototype} from "./prototypes.gamePrototype";
 
-import {terrainMapping} from "./classes.terrainMapping";
-// import {gameData} from "./classes.gameData";
-import {gameData} from "./classes.gameData";
+export function loop() {
+    gamePrototype.init();
 
-export class loop {
-    public constructor() {
-        let gData = new gameData();
-        let map = new terrainMapping();
-
-        console.log(JSON.stringify(map.mapTerrain(gData.initialRoom)));
-    }
+    roomsController.executeAll();
 }
