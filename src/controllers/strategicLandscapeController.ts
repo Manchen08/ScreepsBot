@@ -2,15 +2,16 @@
 import {Terrain} from "../interfaces/Terrain";
 
 export class strategicLandscape {
-    
     public static initialize(roomName: string) {
         let terrain: Terrain = Memory.rooms[roomName].terrain;
-        
-        this.constructedWallLocations(roomName, terrain);
-        this.extensionLocations(roomName, terrain);
-        this.linkLocations(roomName, terrain);
-        this.towerLocations(roomName, terrain);
-        this.exitPoints(roomName, terrain);
+
+        Memory.rooms[roomName].strategicLandscape = {
+            constructedWallLocations: this.constructedWallLocations(roomName, terrain),
+            extensionLocations: this.extensionLocations(roomName, terrain),
+            linkLocations: this.linkLocations(roomName, terrain),
+            towerLocations: this.towerLocations(roomName, terrain),
+            exitPoints: this.exitPoints(roomName, terrain)
+        };
     }
     
     private static constructedWallLocations(roomName: string, terrain: Terrain): {x: number, y: number}[] {
@@ -21,10 +22,7 @@ export class strategicLandscape {
 
         let constructedWallLocations: {x: number, y: number}[] = [];
 
-        constructedWallLocations.concat(xWall(TOP));
-        constructedWallLocations.concat(yWall(RIGHT));
-        constructedWallLocations.concat(xWall(BOTTOM));
-        constructedWallLocations.concat(yWall(LEFT));
+        constructedWallLocations = constructedWallLocations.concat(xWall(TOP), yWall(RIGHT), xWall(BOTTOM), yWall(LEFT));
 
         return constructedWallLocations;
 
@@ -39,35 +37,47 @@ export class strategicLandscape {
         }
     }
     
-    private static extensionLocations(roomName: string, terrain: Terrain): [{x: number, y: number}] {
+    private static extensionLocations(roomName: string, terrain: Terrain): {x: number, y: number}[] {
+        let spawn: {x: number, y: number, name: string, id: string} = Memory.rooms[roomName].structures.spawns[0];
+        let extensionLocations: {x: number, y: number}[] = [];
+
+        for (let rowY=spawn.y-5; rowY<spawn.y+6; rowY+=2) {
+            for (let rowX=spawn.x-6; rowX<spawn.x-1; rowX+=1) {
+                extensionLocations.push({x: rowX, y: rowY});
+            }
+
+            for (let rowX=spawn.x+2; rowX<spawn.x+7; rowX+=1) {
+                extensionLocations.push({x: rowX, y: rowY});
+            }
+        }
+
+        return extensionLocations;
+    }
+
+    private static linkLocations(roomName: string, terrain: Terrain): {x: number, y: number}[] {
         let pos: [{x: number, y: number}] = [
             {x:2,y:3},
             {x:2,y:3}
         ];
 
-        return pos;    }
+        return pos;
+    }
 
-    private static linkLocations(roomName: string, terrain: Terrain): [{x: number, y: number}] {
+    private static towerLocations(roomName: string, terrain: Terrain): {x: number, y: number}[] {
         let pos: [{x: number, y: number}] = [
             {x:2,y:3},
             {x:2,y:3}
         ];
 
-        return pos;    }
+        return pos;
+    }
 
-    private static towerLocations(roomName: string, terrain: Terrain): [{x: number, y: number}] {
+    private static exitPoints(roomName: string, terrain: Terrain): {x: number, y: number}[] {
         let pos: [{x: number, y: number}] = [
             {x:2,y:3},
             {x:2,y:3}
         ];
 
-        return pos;    }
-
-    private static exitPoints(roomName: string, terrain: Terrain): [{x: number, y: number}] {
-        let pos: [{x: number, y: number}] = [
-            {x:2,y:3},
-            {x:2,y:3}
-        ];
-
-        return pos;    }
+        return pos;
+    }
 }

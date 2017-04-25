@@ -47,6 +47,10 @@ module.exports = function (grunt) {
 			default: {
 				files: ['src/**/*.ts'],
 				tasks: ['default']
+			},
+			deploy: {
+				files: ['src/**/*.ts'],
+				tasks: ['default', 'deploy']
 			}
 		}
 	});
@@ -58,4 +62,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-ts');
 
 	grunt.registerTask('default', ['clean', 'ts', 'copy']);
+    grunt.registerTask('deploy', ['screeps']);
+
+
 };
