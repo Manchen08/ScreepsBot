@@ -3,6 +3,12 @@ import {Terrain} from "../Terrain";
 import {StrategicLandscape} from "../StrategicLandscape";
 
 export interface roomsMemory {
+    constructionSites: {id: string, structureType: string, x: number, y: number}[],
+    structurePaths: {
+        fromId: string,
+        toId: string,
+        serializedPath: string
+    }[],
     terrain: Terrain,
     strategicLandscape: StrategicLandscape
     structures: {

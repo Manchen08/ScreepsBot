@@ -7,10 +7,10 @@ export class strategicLandscape {
 
         Memory.rooms[roomName].strategicLandscape = {
             constructedWallLocations: this.constructedWallLocations(roomName, terrain),
+            exitPoints: this.exitPoints(roomName, terrain),
             extensionLocations: this.extensionLocations(roomName, terrain),
             linkLocations: this.linkLocations(roomName, terrain),
-            towerLocations: this.towerLocations(roomName, terrain),
-            exitPoints: this.exitPoints(roomName, terrain)
+            towerLocations: this.towerLocations(roomName, terrain)
         };
     }
     
@@ -36,7 +36,16 @@ export class strategicLandscape {
             return wallSpots.map(spot => {return {x: spot.x, y: spot.y}});
         }
     }
-    
+
+    private static exitPoints(roomName: string, terrain: Terrain): {x: number, y: number}[] {
+        let pos: [{x: number, y: number}] = [
+            {x:2,y:3},
+            {x:2,y:3}
+        ];
+
+        return pos;
+    }
+
     private static extensionLocations(roomName: string, terrain: Terrain): {x: number, y: number}[] {
         let spawn: {x: number, y: number, name: string, id: string} = Memory.rooms[roomName].structures.spawns[0];
         let extensionLocations: {x: number, y: number}[] = [];
@@ -64,15 +73,6 @@ export class strategicLandscape {
     }
 
     private static towerLocations(roomName: string, terrain: Terrain): {x: number, y: number}[] {
-        let pos: [{x: number, y: number}] = [
-            {x:2,y:3},
-            {x:2,y:3}
-        ];
-
-        return pos;
-    }
-
-    private static exitPoints(roomName: string, terrain: Terrain): {x: number, y: number}[] {
         let pos: [{x: number, y: number}] = [
             {x:2,y:3},
             {x:2,y:3}
