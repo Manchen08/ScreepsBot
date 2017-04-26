@@ -1,12 +1,20 @@
 /// <reference path="../_references.ts" />
-import {initializeRoom} from '../controllers/initializeRoomController';
-import {strategicLandscape} from "../controllers/strategicLandscapeController";
-import {pathMapping} from "../classes/pathMapping";
+import {roomController} from '../controllers/rooms/roomController';
+import {landscapeController} from "../controllers/rooms/landscapeController";
+import {pathMapping} from "../classes/rooms/pathMappingClass";
+import {creepSpawnController} from "../controllers/creeps/creepSpawnController";
 
 export class roomLevel1 {
     public constructor(roomName: string) {
-        initializeRoom.initialize(roomName);
-        strategicLandscape.initialize(roomName);
+        roomController.initializeRoom(roomName);
+        landscapeController.initialize(roomName);
         pathMapping.initialize(roomName);
+        creepSpawnController.initialize(roomName, [
+            {type: CREEP_EXTRACTOR,     min: 0, priority: 0},
+            {type: CREEP_BUILDER,       min: 0, priority: 0},
+            {type: CREEP_UPGRADER,      min: 0, priority: 0},
+            {type: CREEP_CARRIER_SPAWN, min: 0, priority: 0},
+            {type: CREEP_CARRIER_TOWER, min: 0, priority: 0}
+        ]);
     }
 }

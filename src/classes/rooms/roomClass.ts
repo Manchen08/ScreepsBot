@@ -1,5 +1,5 @@
-/// <reference path="../_references.ts" />
-import {Room} from "../interfaces/Room";
+/// <reference path="../../_references.ts" />
+import {Room} from "../../interfaces/Room";
 
 export class roomClass implements Room {
     public controller: Controller | undefined;

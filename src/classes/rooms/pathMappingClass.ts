@@ -1,7 +1,7 @@
-/// <reference path="../_references.ts" />
+/// <reference path="../../_references.ts" />
 
 export class pathMapping {
-    public static initialize(roomName: string) {
+    public static initialize(roomName: string): void {
         if (Memory && Memory.rooms && Memory.rooms[roomName] && Memory.rooms[roomName].structurePaths)
             return;
 

@@ -18,7 +18,7 @@ module.exports = function (grunt) {
 					process: function(content, srcpath) {
 						var newContent = content;
 						newContent = newContent.replace(/require\("(?:\.+\/)(.*?)"\);/g, function(match, p1) {
-							return 'require("./' + p1.replace(/\//, '.') + '");';
+							return 'require("./' + p1.replace(/\.\.\//g, '').replace(/\//g, '.') + '");';
 						});
 
 						return newContent;
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
 			},
 			deploy: {
 				files: ['src/**/*.ts'],
-				tasks: ['default', 'deploy']
+				tasks: ['deploy']
 			}
 		}
 	});
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-ts');
 
 	grunt.registerTask('default', ['clean', 'ts', 'copy']);
-    grunt.registerTask('deploy', ['screeps']);
+    grunt.registerTask('deploy', ['default', 'screeps']);
 
 
 };

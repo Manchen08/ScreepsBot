@@ -1,8 +1,8 @@
-/// <reference path="../_references.ts" />
-import {terrainMapping} from "../classes/terrainMapping";
+/// <reference path="../../_references.ts" />
+import {terrainMapping} from "../../classes/rooms/terrainMappingClass";
 
-export class initializeRoom {
-    public static initialize(roomName: string): void {
+export class roomController {
+    public static initializeRoom(roomName: string): void {
         if (!Memory || !Memory.rooms || !Memory.rooms[roomName] || typeof Memory.rooms[roomName] === "undefined") {
             let controller: StructureController = <StructureController>Game.rooms[roomName].controller;
             let spawn: StructureSpawn = <StructureSpawn>Game.rooms[roomName].find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType == STRUCTURE_SPAWN})[0];
