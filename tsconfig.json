@@ -14,7 +14,7 @@
         "removeComments": true,
         "sourceMap": false,
         "suppressImplicitAnyIndexErrors": true,
-        "strictNullChecks": true,
+        "strictNullChecks": false,
         "target": "es6"
     }
 }

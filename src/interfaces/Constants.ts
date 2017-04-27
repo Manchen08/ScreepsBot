@@ -1,5 +1,8 @@
 declare var global: any;
 
+const CREEP_WORKER = 'creepWorker';
+global.CREEP_WORKER = CREEP_WORKER;
+
 const CREEP_EXTRACTOR = 'creepExtractor';
 global.CREEP_EXTRACTOR = CREEP_EXTRACTOR;
 

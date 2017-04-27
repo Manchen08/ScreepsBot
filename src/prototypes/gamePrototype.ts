@@ -1,7 +1,7 @@
 /// <reference path="../_references.ts" />
 
 export class gamePrototype {
-    public static init() {
+    public static initialize() {
         Object.assign(Game, {
             ownedRooms: function(): { [roomName: string]: Room } {
                 let roomsList: { [roomName: string]: Room } = Game.rooms;

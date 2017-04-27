@@ -1,6 +1,6 @@
 /// <reference path="../_references.ts" />
-import {objectivesController} from '../controllers/objectivesController';
-import {gamePrototype} from "../prototypes/gamePrototype";
+import {objectivesController}   from '../controllers/objectivesController';
+import {gamePrototype}          from "../prototypes/gamePrototype";
 
 interface _Game extends Game {
     ownedRooms(): { [roomName: string]: Room }
@@ -8,8 +8,7 @@ interface _Game extends Game {
 
 export class loopController {
     public static initialize(): void {
-        // console.log('loopController()');
-        gamePrototype.init();
+        gamePrototype.initialize();
         loopController.executeAllRooms();
     }
 
@@ -19,7 +18,7 @@ export class loopController {
         let ownedRooms: { [roomName: string]: Room } = _Game.ownedRooms();
 
         for (let myRoom in ownedRooms) {
-            let level: number = 1; // TODO: FIND ROOM LEVEL DYNAMICALLY FROM MEMORY
+            let level: number = (Game.rooms[myRoom].controller) ? Game.rooms[myRoom].controller.level : 1;
             objectivesCtl.pursueRoomLevel(myRoom, level);
         }
     }

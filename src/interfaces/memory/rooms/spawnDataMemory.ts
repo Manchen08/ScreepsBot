@@ -1,3 +1,3 @@
 export interface spawnDataMemory {
-    lastSpawnGameTime: {creepType: string, gameTime: number}[]
+    lastSpawnGameTime: {creepRole: string, gameTime: number}[]
 }
