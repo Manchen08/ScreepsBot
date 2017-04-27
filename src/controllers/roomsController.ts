@@ -1,15 +1,13 @@
 /// <reference path="../_references.ts" />
 import {objectivesController}   from '../controllers/objectivesController';
-import {gamePrototype}          from "../prototypes/gamePrototype";
 
 interface _Game extends Game {
     ownedRooms(): { [roomName: string]: Room }
 }
 
-export class loopController {
+export class roomsController {
     public static initialize(): void {
-        gamePrototype.initialize();
-        loopController.executeAllRooms();
+        roomsController.executeAllRooms();
     }
 
     public static executeAllRooms(): void {

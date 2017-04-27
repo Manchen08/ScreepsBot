@@ -3,6 +3,11 @@ import {TerrainTotals} from "./TerrainTotals";
 
 export interface Terrain {
     area: LookAtResultWithPos[],
-    energySources: {id: string, x: number, y: number}[],
+    energySources: {
+        id: string,
+        x: number,
+        y: number,
+        creepsAssigned: number
+    }[],
     totals: TerrainTotals
 }

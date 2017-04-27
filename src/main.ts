@@ -1,9 +1,11 @@
 /// <reference path="_references.ts" />
 import {gameController} from "./controllers/gameController";
-import {loopController} from "./controllers/loopController";
+import {roomsController} from "./controllers/roomsController";
+import {gamePrototype} from "./prototypes/gamePrototype";
 
 gameController.initialize();
 
 export function loop() {
-    loopController.initialize();
+    gamePrototype.initialize();
+    roomsController.initialize();
 }

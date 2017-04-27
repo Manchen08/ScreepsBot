@@ -1,9 +1,24 @@
 import {LoDashImplicitObjectWrapper, LoDashStatic} from "lodash";
 import {config} from "../../config";
+import {creepBuilderController} from "../../controllers/creeps/creepBuilderController";
+import {creepExtractorController} from "../../controllers/creeps/creepExtractorController";
+import {creepSpawnCarrierController} from "../../controllers/creeps/creepSpawnCarrierController";
+import {creepTowerCarrierController} from "../../controllers/creeps/creepTowerCarrierController";
+import {creepUpgraderController} from "../../controllers/creeps/creepUpgraderController";
+import {creepWorkerController} from "../../controllers/creeps/creepWorkerController";
+import {roomClass} from "../rooms/roomClass";
 declare const _: LoDashStatic;
 
 export class creepsClass {
-    private static creepRoles: string[] = [CREEP_EXTRACTOR, CREEP_BUILDER, CREEP_UPGRADER, CREEP_CARRIER_SPAWN, CREEP_CARRIER_TOWER, CREEP_WORKER];
+    public static creepRoles: string[] = [CREEP_EXTRACTOR, CREEP_BUILDER, CREEP_UPGRADER, CREEP_SPAWN_CARRIER, CREEP_TOWER_CARRIER, CREEP_WORKER];
+    public static creepRolesControllers: {[role: string]: any} = {
+        [CREEP_EXTRACTOR]: creepExtractorController,
+        [CREEP_BUILDER]: creepBuilderController,
+        [CREEP_UPGRADER]: creepUpgraderController,
+        [CREEP_SPAWN_CARRIER]: creepSpawnCarrierController,
+        [CREEP_TOWER_CARRIER]: creepTowerCarrierController,
+        [CREEP_WORKER]: creepWorkerController
+    };
 
     public static bodyParts(creepRole?: string): string[] {
         let bodyParts: string[] = [];
@@ -22,11 +37,11 @@ export class creepsClass {
                 bodyParts = [WORK, MOVE, CARRY];
                 break;
             }
-            case CREEP_CARRIER_SPAWN: {
+            case CREEP_SPAWN_CARRIER: {
                 bodyParts = [CARRY, MOVE];
                 break;
             }
-            case CREEP_CARRIER_TOWER: {
+            case CREEP_TOWER_CARRIER: {
                 bodyParts = [CARRY, MOVE];
                 break;
             }
@@ -80,5 +95,10 @@ export class creepsClass {
         }
 
         Memory.rooms[roomName].creepsCount = creepsCount;
+    }
+
+    public static assignEnergySourceId(creep: Creep) {
+        let energySources: {id: string, x: number, y: number}[] = roomClass.energySources(creep.room.name, creep);
+
     }
 }

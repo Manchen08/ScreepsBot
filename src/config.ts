@@ -2,6 +2,7 @@
 
 export class config {
     static cacheTimeExpire = {
-        creepsCount: 100
+        creepsCount: 250,
+        creepSource: 1000
     };
 }
