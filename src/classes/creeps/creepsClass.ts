@@ -6,7 +6,6 @@ import {creepSpawnCarrierController} from "../../controllers/creeps/creepSpawnCa
 import {creepTowerCarrierController} from "../../controllers/creeps/creepTowerCarrierController";
 import {creepUpgraderController} from "../../controllers/creeps/creepUpgraderController";
 import {creepWorkerController} from "../../controllers/creeps/creepWorkerController";
-import {roomClass} from "../rooms/roomClass";
 declare const _: LoDashStatic;
 
 export class creepsClass {
@@ -95,10 +94,5 @@ export class creepsClass {
         }
 
         Memory.rooms[roomName].creepsCount = creepsCount;
-    }
-
-    public static assignEnergySourceId(creep: Creep) {
-        let energySources: {id: string, x: number, y: number}[] = roomClass.energySources(creep.room.name, creep);
-
     }
 }

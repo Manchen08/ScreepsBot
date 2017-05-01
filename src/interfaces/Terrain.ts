@@ -7,7 +7,7 @@ export interface Terrain {
         id: string,
         x: number,
         y: number,
-        creepsAssigned: number
+        creepsAssigned: { [creepType: string]: number }
     }[],
     totals: TerrainTotals
 }

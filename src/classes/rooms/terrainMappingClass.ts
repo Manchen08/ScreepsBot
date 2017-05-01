@@ -5,7 +5,7 @@ import {Terrain} from "../../interfaces/Terrain";
 export class terrainMapping {
     public static mapTerrain(roomName: string): Terrain {
         let area: LookAtResultWithPos[] = terrainMapping.terrainArea(roomName);
-        let energySources: {id: string, x: number, y: number, creepsAssigned: number}[] = terrainMapping.energySources(roomName);
+        let energySources: {id: string, x: number, y: number, creepsAssigned: { [creepType: string]: number }}[] = terrainMapping.energySources(roomName);
         let totals: TerrainTotals = terrainMapping.terrainTotals(roomName, area);
 
         return { area: area, energySources: energySources, totals: totals };
@@ -16,9 +16,9 @@ export class terrainMapping {
         return area.filter(spot => spot.type == 'terrain');
     }
 
-    private static energySources(roomName: string): {id: string, x: number, y: number, creepsAssigned: number}[] {
+    private static energySources(roomName: string): {id: string, x: number, y: number, creepsAssigned: { [creepType: string]: number }}[] {
         let energySources: Resource[] = <Resource[]>Game.rooms[roomName].find(FIND_SOURCES);
-        return energySources.map(source => {return {id: source.id, x: source.pos.x, y: source.pos.y, creepsAssigned: 0}});
+        return energySources.map(source => {return {id: source.id, x: source.pos.x, y: source.pos.y, creepsAssigned: {}}});
     }
 
     private static terrainTotals(roomName: string, area: LookAtResultWithPos[]): TerrainTotals {
