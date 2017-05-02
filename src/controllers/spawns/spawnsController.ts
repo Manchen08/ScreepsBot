@@ -13,27 +13,32 @@ export class spawnsController {
     public static initialize(roomName: string, creepGoals: creepGoal[]): void {
         let creepsCnt: {[type: string]: number} = creepsClass.creepsCount(roomName);
 
-        creepGoals = spawnsController.sortCreeps(roomName, creepGoals);
         creepGoals = creepGoals.filter(creepGoal => creepsCnt[creepGoal.type] < creepGoal.min);
+        creepGoals = spawnsController.sortCreeps(roomName, creepGoals);
 
         for (let i=0; i<creepGoals.length; i++) {
             let creepGoal: creepGoal = creepGoals[i];
-            spawnsController.createCreep(roomName, creepGoal.type);
+            if (spawnsController.createCreep(roomName, creepGoal.type)) break;
         }
     }
 
-    private static createCreep(roomName: string, creepRole: string) {
+    private static createCreep(roomName: string, creepRole: string): boolean {
         let spawn: StructureSpawn = <StructureSpawn>Game.getObjectById(Memory.rooms[roomName].structures.spawns[0].id);
         let spawnData: spawnDataMemory = Memory.rooms[roomName].spawnData;
         let bodyParts: string[] = creepsClass.bodyParts(creepRole);
+        let creepName: number | string = spawn.createCreep(bodyParts, null, {role: creepRole, room: roomName});
 
-        spawn.createCreep(bodyParts, null, {role: creepRole, room: roomName});
+        if (typeof creepName != "string")
+            return false;
+
         creepsClass.increaseCreepCount(roomName, creepRole);
 
         if (Memory && Memory.rooms && Memory.rooms[roomName] && Memory.rooms[roomName].spawnData && Memory.rooms[roomName].spawnData.lastSpawnGameTime) {
             let spawnDataIndex: number  = spawnData.lastSpawnGameTime.map(lastspawn => lastspawn.creepRole).indexOf(creepRole);
             Memory.rooms[roomName].spawnData.lastSpawnGameTime[spawnDataIndex] = {creepRole: creepRole, gameTime: Game.time};
         }
+
+        return true;
     }
 
     private static sortCreeps(roomName: string, creepGoals: creepGoal[]): creepGoal[] {
