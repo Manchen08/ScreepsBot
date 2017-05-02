@@ -3,7 +3,12 @@
 export interface creepsMemory {
     energySource: {
         _cacheExpire: number,
-        id: string,
+        id: string
+    },
+    path: {
+        _cacheExpire: number,
+        objectId: string,
+        serialized: string
     },
     role: string,
     subRole: string,

@@ -7,6 +7,12 @@ export class creepExtractorController {
         if (!creep.memory.energySource || (creep.memory && creep.memory.energySource && creep.memory.energySource._cacheExpire > Game.time)) {
             creepExtractorController.assignEnergySource(creep);
         }
+
+        if (!creep.memory.path || (creep.memory && creep.memory.path && creep.memory.path._cacheExpire > Game.time)) {
+            creepExtractorController.assignPath(creep, creep.memory.energySource.id);
+        }
+
+        creepExtractorController.moveToEnergySource(creep, Room.deserializePath(creep.memory.path.serialized));
     }
 
     private static assignEnergySource(creep: Creep): void {
@@ -31,7 +37,18 @@ export class creepExtractorController {
         };
     }
 
-    private static moveToEnergySource(): void {
+    private static moveToEnergySource(creep: Creep, path: PathStep[]): void {
+
+    }
+
+    private static assignPath(creep: Creep, destinationId: string): PathStep[] {
+        let creepPath: PathStep[];
+
+        creepPath = creep.pos.findClosestByPath();
+
+
+
+        return creepPath;
 
     }
 }
