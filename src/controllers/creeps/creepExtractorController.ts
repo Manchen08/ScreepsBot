@@ -12,7 +12,10 @@ export class creepExtractorController {
             creepExtractorController.assignPath(creep, creep.memory.energySource.id);
         }
 
-        creepExtractorController.moveToEnergySource(creep, Room.deserializePath(creep.memory.path.serialized));
+        if (creep.harvest(<Source>Game.getObjectById(creep.memory.energySource.id)) == ERR_NOT_IN_RANGE) {
+            creep.moveByPath(Room.deserializePath(creep.memory.path.serialized));
+        }
+
     }
 
     private static assignEnergySource(creep: Creep): void {
@@ -20,7 +23,7 @@ export class creepExtractorController {
         let energySources: Source[];
 
         energySources = roomClass.energySources(creep.room.name);
-        energySources = energySources.sort((a:Source,b:Source) => {
+        energySources = energySources.sort((a: Source, b: Source) => {
             let creepAssignedToA: number = Memory.rooms[creep.memory.room].terrain.energySources.filter((src: Source) => src.id === a.id)[0].creepsAssigned[creepType];
             let creepAssignedToB: number = Memory.rooms[creep.memory.room].terrain.energySources.filter((src: Source) => src.id === b.id)[0].creepsAssigned[creepType];
 
@@ -37,16 +40,18 @@ export class creepExtractorController {
         };
     }
 
-    private static moveToEnergySource(creep: Creep, path: PathStep[]): void {
-
-    }
-
     private static assignPath(creep: Creep, destinationId: string): PathStep[] {
         let creepPath: PathStep[];
+        let serializedPath: string;
 
-        creepPath = creep.pos.findClosestByPath();
+        creepPath = creep.pos.findPathTo(<RoomPosition>Game.getObjectById(destinationId));
+        serializedPath = Room.serializePath(creepPath);
 
-
+        creep.memory.path = {
+            _cacheExpire: Game.time + config.cacheTimeExpire.serializedPaths,
+            objectId: destinationId,
+            serialized: serializedPath
+        };
 
         return creepPath;
 

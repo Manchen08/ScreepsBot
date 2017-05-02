@@ -14,7 +14,7 @@ export class roomLevel1 {
             {type: CREEP_EXTRACTOR,     min: 1, priority: 10},
             {type: CREEP_BUILDER,       min: 0, priority: 0},
             {type: CREEP_UPGRADER,      min: 0, priority: 0},
-            {type: CREEP_SPAWN_CARRIER, min: 1, priority: 15},
+            {type: CREEP_SPAWN_CARRIER, min: 0, priority: 15},
             {type: CREEP_TOWER_CARRIER, min: 0, priority: 0}
         ]);
         creepsController.initialize(roomName);
