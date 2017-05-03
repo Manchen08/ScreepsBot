@@ -7,30 +7,46 @@ declare const _: LoDashStatic;
 
 export class creepSpawnCarrierController {
     public static initialize(creep: Creep): void {
-        let creepCarryAmount: number;
-
         if (!creep.memory.energySource || (creep.memory && creep.memory.energySource && creep.memory.energySource.objectId
-            && creep.memory.energySource._cacheExpire > Game.time)) {
-
+            && creep.memory.energySource._cacheExpire > Game.time))
+        {
             creepSpawnCarrierController.assignEnergySource(creep);
-
         }
 
         if (!creep.memory.paths || (creep.memory && creep.memory.paths && creep.memory.paths[creep.memory.energySource.objectId]
-            && creep.memory.paths[creep.memory.energySource.objectId]._cacheExpire > Game.time)) {
-
+            && creep.memory.paths[creep.memory.energySource.objectId]._cacheExpire > Game.time))
+        {
             creepSpawnCarrierController.assignPaths(creep,
                 [creep.memory.energySource.objectId, Memory.rooms[creep.room.name].structures.spawns[0].id]);
-
         }
 
-        creepCarryAmount = _.sum(creep.carry);
-        if (creepCarryAmount < creep.carryCapacity) {
-            creepSpawnCarrierController.fetchEnergy(creep);
+        creepSpawnCarrierController.doActions(creep);
+    }
+
+    private static doActions(creep: Creep): void {
+        let creepCarryAmount: number = _.sum(creep.carry);
+
+        if (creepCarryAmount <= 0 && creep.memory.action == 'deliver') {
+            creep.memory.action = 'fetch';
         }
 
-        if (creepCarryAmount >= creep.carryCapacity) {
-            creepSpawnCarrierController.deliverEnergy(creep);
+        if (creepCarryAmount >= creep.carryCapacity && creep.memory.action == 'fetch') {
+            creep.memory.action = 'deliver';
+        }
+
+        if (!creep.memory.action) {
+            creep.memory.action = 'fetch';
+        }
+
+        switch (creep.memory.action) {
+            case 'deliver': {
+                creepSpawnCarrierController.deliverEnergy(creep);
+                break;
+            }
+            case 'fetch': {
+                creepSpawnCarrierController.fetchEnergy(creep);
+                break;
+            }
         }
     }
 
@@ -42,8 +58,26 @@ export class creepSpawnCarrierController {
     }
 
     private static fetchEnergy(creep: Creep): void {
-        if (creep.memory && creep.memory.energySource && creep.memory.energySource.objectId) {
-            creep.moveByPath(Room.deserializePath(creep.memory.paths[creep.memory.energySource.objectId].serialized));
+        let extractedResource: Resource = null;
+        let energySource: Source = null;
+
+        if (creep.memory.energySource && creep.memory.energySource.extractedResourceId)
+            extractedResource = <Resource>Game.getObjectById(creep.memory.energySource.extractedResourceId);
+
+        if (creep.memory.energySource && creep.memory.energySource.objectId)
+            energySource = <Source>Game.getObjectById(creep.memory.energySource.objectId);
+
+        if (!extractedResource || !energySource)
+            creepSpawnCarrierController.assignPaths(creep,
+                [creep.memory.energySource.objectId, Memory.rooms[creep.room.name].structures.spawns[0].id]);
+
+        if (creep.memory && creep.memory.energySource && creep.memory.energySource.extractedResourceId
+            && Game.getObjectById(creep.memory.energySource.extractedResourceId)
+            && creep.pickup(<Resource>Game.getObjectById(creep.memory.energySource.extractedResourceId)) == ERR_NOT_IN_RANGE)
+        {
+            creep.moveTo(<Resource>Game.getObjectById(creep.memory.energySource.extractedResourceId));
+        } else {
+            creep.moveTo(<Source>Game.getObjectById(creep.memory.energySource.objectId));
         }
     }
 

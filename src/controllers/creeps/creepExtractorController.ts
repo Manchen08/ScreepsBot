@@ -7,8 +7,6 @@ declare const _: LoDashStatic;
 
 export class creepExtractorController {
     public static initialize(creep: Creep): void {
-        let creepCarryAmount: number;
-
         if (!creep.memory.energySource || (creep.memory && creep.memory.energySource && creep.memory.energySource.objectId
             && creep.memory.energySource._cacheExpire > Game.time)) {
             creepExtractorController.assignEnergySource(creep);
@@ -18,6 +16,12 @@ export class creepExtractorController {
             && creep.memory.paths[creep.memory.energySource.objectId]._cacheExpire > Game.time)) {
             creepExtractorController.assignPath(creep, creep.memory.energySource.objectId);
         }
+
+        creepExtractorController.doActions(creep);
+    }
+
+    private static doActions(creep: Creep): void {
+        let creepCarryAmount: number;
 
         creepCarryAmount = _.sum(creep.carry);
         if (creepCarryAmount < creep.carryCapacity) {
@@ -32,10 +36,6 @@ export class creepExtractorController {
     private static harvestEnergy(creep: Creep): void {
         if (creep.memory && creep.memory.energySource && creep.harvest(<Source>Game.getObjectById(creep.memory.energySource.objectId)) == ERR_NOT_IN_RANGE) {
             creep.moveByPath(Room.deserializePath(creep.memory.paths[creep.memory.energySource.objectId].serialized));
-        }
-
-        if (creep.memory && creep.memory.energySource && creep.memory.energySource.extractedResourceId) {
-            creep.harvest(<Source>Game.getObjectById(creep.memory.energySource.extractedResourceId));
         }
     }
 
@@ -84,21 +84,16 @@ export class creepExtractorController {
     }
 
     private static distributeEnergy(creep: Creep): void {
-        let distributeTargets: any[] = [];
-        let creeps: Creep[] = <Creep[]>creep.pos.findInRange(FIND_MY_CREEPS, 1)
-            .filter((creep: Creep) => _.sum(creep.carry) < creep.carryCapacity);
         let structures: Structure[] = <Structure[]>creep.pos.findInRange(FIND_MY_STRUCTURES, 1)
             .filter((structure: Structure) => structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE)
             .filter((structure: StructureContainer | StructureStorage) => (structure.store < structure.storeCapacity));
 
-        distributeTargets = distributeTargets.concat(creeps, structures);
-
-        for (let i = 0; i < distributeTargets.length; i++) {
-            let target: Creep | Structure = distributeTargets[i];
+        for (let i = 0; i < structures.length; i++) {
+            let target: Creep | Structure = structures[i];
             creep.transfer(target, RESOURCE_ENERGY);
         }
 
-        if (distributeTargets.length <= 0) {
+        if (structures.length <= 0) {
             creep.drop(RESOURCE_ENERGY);
         }
     }
