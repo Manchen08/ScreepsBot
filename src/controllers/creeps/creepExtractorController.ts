@@ -47,12 +47,11 @@ export class creepExtractorController {
 
         energySources = roomClass.energySources(creep.room.name);
         energySources = energySources.sort((a: Source, b: Source) => {
-            let creepAssignedToA: number = Memory.rooms[creep.memory.room].terrain.energySources[a.id].creepsAssigned[creepType];
-            let creepAssignedToB: number = Memory.rooms[creep.memory.room].terrain.energySources[b.id].creepsAssigned[creepType];
+            let cntAssignedToA: number = (!isNaN(parseInt(Memory.rooms[creep.memory.room].terrain.energySources[a.id].creepsAssigned[creepType]))) ? Memory.rooms[creep.memory.room].terrain.energySources[a.id].creepsAssigned[creepType] : 0;
+            let cntAssignedToB: number = (!isNaN(parseInt(Memory.rooms[creep.memory.room].terrain.energySources[b.id].creepsAssigned[creepType]))) ? Memory.rooms[creep.memory.room].terrain.energySources[b.id].creepsAssigned[creepType] : 0;
             let creepDistanceToA: number = creep.pos.getRangeTo(a.pos);
             let creepDistanceToB: number = creep.pos.getRangeTo(b.pos);
-
-            return (creepAssignedToA != creepAssignedToB) ? creepAssignedToA - creepAssignedToB : creepDistanceToA - creepDistanceToB;
+            return (cntAssignedToA != cntAssignedToB) ? cntAssignedToA - cntAssignedToB : creepDistanceToA - creepDistanceToB;
         });
 
         extractedResource = <Resource>creep.pos.findInRange(FIND_DROPPED_RESOURCES, 0)[0];
