@@ -1,15 +1,10 @@
 /// <reference path="../../_references.ts" />
+import {creepPathMemory} from "./creeps/creepPathMemory";
+import {creepEnergySourceMemory} from "./creeps/creepEnergySourceMemory";
 
 export interface creepsMemory {
-    energySource: {
-        _cacheExpire: number,
-        id: string
-    },
-    path: {
-        _cacheExpire: number,
-        objectId: string,
-        serialized: string
-    },
+    energySource: creepEnergySourceMemory,
+    paths: {[objectId: string]: creepPathMemory},
     role: string,
     subRole: string,
     action: string,

@@ -25,7 +25,7 @@ export class creepsClass {
 
         switch (creepRole) {
             case CREEP_EXTRACTOR: {
-                bodyParts = [WORK, MOVE];
+                bodyParts = [WORK, MOVE, CARRY];
                 break;
             }
             case CREEP_BUILDER: {
