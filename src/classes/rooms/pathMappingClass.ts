@@ -2,19 +2,25 @@
 
 export class pathMapping {
     public static initialize(roomName: string): void {
+        let items: {id: string, x: number, y: number}[] = [];
+
         if (Memory && Memory.rooms && Memory.rooms[roomName] && Memory.rooms[roomName].structurePaths)
             return;
 
-        let focalPoint: any = Memory.rooms[roomName].structures.spawns[0];
+        let energySources: {id: string, x: number, y: number}[] = [];
+        for (let sourceId in Memory.rooms[roomName].terrain.energySources) {
+            energySources.push({
+                id: sourceId,
+                x: Memory.rooms[roomName].terrain.energySources[sourceId].x,
+                y: Memory.rooms[roomName].terrain.energySources[sourceId].y
+            });
+        }
 
-        let items: {id: string, x: number, y: number}[] = [];
-        items = items.concat(
-            [Memory.rooms[roomName].structures.controller],
-            Memory.rooms[roomName].terrain.energySources,
-            Memory.rooms[roomName].structures.spawns
-        );
+        items = items.concat(items, [Memory.rooms[roomName].structures.controller]);
+        items = items.concat(items, energySources);
+        items = items.concat(items, Memory.rooms[roomName].structures.spawns);
 
-        Memory.rooms[roomName].structurePaths = pathMapping.pathsFromFocal(roomName, focalPoint, items);
+        Memory.rooms[roomName].structurePaths = pathMapping.pathsFromFocal(roomName, Memory.rooms[roomName].structures.spawns[0], items);
     }
 
     private static pathsFromFocal(roomName: string, focalPoint: {id: string, x: number, y: number}, items: {id: string, x: number, y: number}[])

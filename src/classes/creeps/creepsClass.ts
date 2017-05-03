@@ -80,7 +80,7 @@ export class creepsClass {
         return creepsCount;
     }
 
-    public static increaseCreepCount(roomName: string, increaseCreepRole: string) {
+    public static increaseCreepCount(roomName: string, increaseCreepType: string) {
         let creepsCount: {[type: string]: number} = {};
 
         for (let i=0; i<creepsClass.creepRoles.length; i++) {
@@ -90,7 +90,23 @@ export class creepsClass {
             creeps = _.filter(Game.creeps, (creep: Creep) => creep.memory.room == roomName);
             creeps = _.filter(creeps, (creep: Creep) => creep.memory.role == creepRole);
 
-            creepsCount[creepRole] = (creepRole == increaseCreepRole) ? creeps.length++: creeps.length;
+            creepsCount[creepRole] = (creepRole == increaseCreepType) ? creeps.length++: creeps.length;
+        }
+
+        Memory.rooms[roomName].creepsCount = creepsCount;
+    }
+
+    public static decreaseCreepCount(roomName: string, decreaseCreepType: string) {
+        let creepsCount: {[type: string]: number} = {};
+
+        for (let i=0; i<creepsClass.creepRoles.length; i++) {
+            let creepRole: string = creepsClass.creepRoles[i];
+            let creeps: Creep[] = [];
+
+            creeps = _.filter(Game.creeps, (creep: Creep) => creep.memory.room == roomName);
+            creeps = _.filter(creeps, (creep: Creep) => creep.memory.role == creepRole);
+
+            creepsCount[creepRole] = (creepRole == decreaseCreepType) ? creeps.length--: creeps.length;
         }
 
         Memory.rooms[roomName].creepsCount = creepsCount;

@@ -8,7 +8,7 @@ declare const _: LoDashStatic;
 export class creepSpawnCarrierController {
     public static initialize(creep: Creep): void {
         if (!creep.memory.energySource || (creep.memory && creep.memory.energySource && creep.memory.energySource.objectId
-            && creep.memory.energySource._cacheExpire > Game.time))
+            && creep.memory.energySource._cacheExpire < Game.time))
         {
             creepSpawnCarrierController.assignEnergySource(creep);
         }
@@ -68,8 +68,7 @@ export class creepSpawnCarrierController {
             energySource = <Source>Game.getObjectById(creep.memory.energySource.objectId);
 
         if (!extractedResource || !energySource)
-            creepSpawnCarrierController.assignPaths(creep,
-                [creep.memory.energySource.objectId, Memory.rooms[creep.room.name].structures.spawns[0].id]);
+            creepSpawnCarrierController.assignEnergySource(creep);
 
         if (creep.memory && creep.memory.energySource && creep.memory.energySource.extractedResourceId
             && Game.getObjectById(creep.memory.energySource.extractedResourceId)
@@ -77,7 +76,10 @@ export class creepSpawnCarrierController {
         {
             creep.moveTo(<Resource>Game.getObjectById(creep.memory.energySource.extractedResourceId));
         } else {
-            creep.moveTo(<Source>Game.getObjectById(creep.memory.energySource.objectId));
+            // creep.moveTo(<Source>Game.getObjectById(creep.memory.energySource.objectId));
+            if (creep.memory.energySource && creep.memory.energySource.objectId && creep.memory.paths && creep.memory.paths[creep.memory.energySource.objectId] && creep.memory.paths[creep.memory.energySource.objectId].serialized) {
+                creep.moveByPath(Room.deserializePath(creep.memory.paths[creep.memory.energySource.objectId].serialized));
+            }
         }
     }
 
@@ -89,8 +91,8 @@ export class creepSpawnCarrierController {
 
         energySources = roomClass.energySources(creep.room.name);
         energySources = energySources.sort((a: Source, b: Source) => {
-            let creepAssignedToA: number = Memory.rooms[creep.memory.room].terrain.energySources.filter((src: Source) => src.id === a.id)[0].creepsAssigned[creepType];
-            let creepAssignedToB: number = Memory.rooms[creep.memory.room].terrain.energySources.filter((src: Source) => src.id === b.id)[0].creepsAssigned[creepType];
+            let creepAssignedToA: number = Memory.rooms[creep.memory.room].terrain.energySources[a.id].creepsAssigned[creepType];
+            let creepAssignedToB: number = Memory.rooms[creep.memory.room].terrain.energySources[b.id].creepsAssigned[creepType];
             let creepDistanceToA: number = creep.pos.getRangeTo(a.pos);
             let creepDistanceToB: number = creep.pos.getRangeTo(b.pos);
 

@@ -1,13 +1,9 @@
 /// <reference path="../_references.ts" />
 import {TerrainTotals} from "./TerrainTotals";
+import {terrainEnergySourcesMemory} from "./memory/rooms/terrainEnergySourcesMemory";
 
 export interface Terrain {
     area: LookAtResultWithPos[],
-    energySources: {
-        id: string,
-        x: number,
-        y: number,
-        creepsAssigned: { [creepType: string]: number }
-    }[],
+    energySources: {[objectId: string]: terrainEnergySourcesMemory},
     totals: TerrainTotals
 }

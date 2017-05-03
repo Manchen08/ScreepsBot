@@ -1,14 +1,22 @@
 /// <reference path="../../_references.ts" />
 import {TerrainTotals} from "../../interfaces/TerrainTotals";
 import {Terrain} from "../../interfaces/Terrain";
+import {terrainEnergySourcesMemory} from "../../interfaces/memory/rooms/terrainEnergySourcesMemory";
 
 export class terrainMapping {
     public static mapTerrain(roomName: string): Terrain {
+        let mapTerrain: Terrain;
         let area: LookAtResultWithPos[] = terrainMapping.terrainArea(roomName);
-        let energySources: {id: string, x: number, y: number, creepsAssigned: { [creepType: string]: number }}[] = terrainMapping.energySources(roomName);
+        let energySources: {[objectId: string]: terrainEnergySourcesMemory} = terrainMapping.energySources(roomName);
         let totals: TerrainTotals = terrainMapping.terrainTotals(roomName, area);
 
-        return { area: area, energySources: energySources, totals: totals };
+        mapTerrain = {
+            area: area,
+            energySources: energySources,
+            totals: totals
+        };
+
+        return mapTerrain;
     }
 
     private static terrainArea(roomName: string): LookAtResultWithPos[] {
@@ -16,9 +24,21 @@ export class terrainMapping {
         return area.filter(spot => spot.type == 'terrain');
     }
 
-    private static energySources(roomName: string): {id: string, x: number, y: number, creepsAssigned: { [creepType: string]: number }}[] {
-        let energySources: Resource[] = <Resource[]>Game.rooms[roomName].find(FIND_SOURCES);
-        return energySources.map(source => {return {id: source.id, x: source.pos.x, y: source.pos.y, creepsAssigned: {}}});
+    private static energySources(roomName: string): {[objectId: string]: terrainEnergySourcesMemory} {
+        let energySources: {[objectId: string]: terrainEnergySourcesMemory} = {};
+        let listRoomEnergySources: Resource[] = <Resource[]>Game.rooms[roomName].find(FIND_SOURCES);
+
+        for (let i=0; i<listRoomEnergySources.length; i++) {
+            let source: Resource = listRoomEnergySources[i];
+
+            energySources[source.id] = {
+                x: source.pos.x,
+                y: source.pos.y,
+                creepsAssigned: {}
+            }
+        }
+
+        return energySources;
     }
 
     private static terrainTotals(roomName: string, area: LookAtResultWithPos[]): TerrainTotals {

@@ -8,7 +8,7 @@ declare const _: LoDashStatic;
 export class creepExtractorController {
     public static initialize(creep: Creep): void {
         if (!creep.memory.energySource || (creep.memory && creep.memory.energySource && creep.memory.energySource.objectId
-            && creep.memory.energySource._cacheExpire > Game.time)) {
+            && creep.memory.energySource._cacheExpire < Game.time)) {
             creepExtractorController.assignEnergySource(creep);
         }
 
@@ -47,8 +47,8 @@ export class creepExtractorController {
 
         energySources = roomClass.energySources(creep.room.name);
         energySources = energySources.sort((a: Source, b: Source) => {
-            let creepAssignedToA: number = Memory.rooms[creep.memory.room].terrain.energySources.filter((src: Source) => src.id === a.id)[0].creepsAssigned[creepType];
-            let creepAssignedToB: number = Memory.rooms[creep.memory.room].terrain.energySources.filter((src: Source) => src.id === b.id)[0].creepsAssigned[creepType];
+            let creepAssignedToA: number = Memory.rooms[creep.memory.room].terrain.energySources[a.id].creepsAssigned[creepType];
+            let creepAssignedToB: number = Memory.rooms[creep.memory.room].terrain.energySources[b.id].creepsAssigned[creepType];
             let creepDistanceToA: number = creep.pos.getRangeTo(a.pos);
             let creepDistanceToB: number = creep.pos.getRangeTo(b.pos);
 
@@ -64,6 +64,16 @@ export class creepExtractorController {
         };
 
         creep.memory.energySource = memoryEnergySource;
+
+        if (Memory.rooms[creep.memory.room].terrain.energySources[memoryEnergySource.objectId]
+            && Memory.rooms[creep.memory.room].terrain.energySources[memoryEnergySource.objectId].creepsAssigned
+            && Memory.rooms[creep.memory.room].terrain.energySources[memoryEnergySource.objectId].creepsAssigned[creepType])
+        {
+            Memory.rooms[creep.memory.room].terrain.energySources[memoryEnergySource.objectId].creepsAssigned[creepType]++;
+        } else {
+            Memory.rooms[creep.memory.room].terrain.energySources[memoryEnergySource.objectId].creepsAssigned = {};
+            Memory.rooms[creep.memory.room].terrain.energySources[memoryEnergySource.objectId].creepsAssigned[creepType] = 1;
+        }
     }
 
     private static assignPath(creep: Creep, destinationId: string): void {
