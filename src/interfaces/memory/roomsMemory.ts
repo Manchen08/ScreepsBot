@@ -14,7 +14,7 @@ export interface roomsMemory {
     strategicLandscape: StrategicLandscape
     structures: {
         containers: structureMemory[],
-        controllers: structureMemory[],
+        controller: structureMemory,
         extensions: structureMemory[],
         extractors: structureMemory[],
         keeperlairs: structureMemory[],

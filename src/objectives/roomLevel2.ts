@@ -1,15 +1,11 @@
 /// <reference path="../_references.ts" />
-import {creepsController} from "../controllers/creepsController";
-import {landscapeController} from "../controllers/rooms/landscapeController";
-import {pathMapping} from "../classes/rooms/pathMappingClass";
-import {spawnsController} from "../controllers/spawns/spawnsController";
-import {initializeRoomController} from "../controllers/rooms/initializeRoomController";
+import {constructionSitesController}    from "../controllers/rooms/constructionSitesController";
+import {creepsController}               from "../controllers/creepsController";
+import {spawnsController}               from "../controllers/spawns/spawnsController";
+import {terrainEnergySourcesMemory}     from "../interfaces/memory/rooms/terrainEnergySourcesMemory";
 
 export class roomLevel2 {
     public constructor(roomName: string) {
-        initializeRoomController.initialize(roomName);
-        landscapeController.initialize(roomName);
-        pathMapping.initialize(roomName);
         spawnsController.initialize(roomName, [
             {type: CREEP_EXTRACTOR,     min: 2, priority: 10},
             {type: CREEP_BUILDER,       min: 1, priority: 45},
@@ -18,5 +14,22 @@ export class roomLevel2 {
             {type: CREEP_TOWER_CARRIER, min: 0, priority: 0}
         ]);
         creepsController.initialize(roomName);
+        this.constructionSites(roomName);
+    }
+
+    private constructionSites(roomName: string): void {
+        let spawnId: string = Memory.rooms[roomName].structures.spawns[0].id;
+        let controllerId: string = Memory.rooms[roomName].structures.controller.id;
+        let energySources: {[objectId: string]: terrainEnergySourcesMemory} = Memory.rooms[roomName].terrain.energySources;
+        let energySourcesIdArr: string[] = [];
+
+        for (let sourceId in energySources) {
+            energySourcesIdArr.push(sourceId);
+        }
+
+        constructionSitesController.constructPaths(roomName, [
+            {fromIdArr: [spawnId], toIdArr: energySourcesIdArr, priority: 10},
+            {fromIdArr: [controllerId], toIdArr: energySourcesIdArr, priority: 20}
+        ]);
     }
 }
