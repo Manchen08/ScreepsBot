@@ -28,8 +28,8 @@ export class roomLevel2 {
         }
 
         constructionSitesController.constructPaths(roomName, [
-            {fromIdArr: [spawnId], toIdArr: energySourcesIdArr, priority: 10},
-            {fromIdArr: [controllerId], toIdArr: energySourcesIdArr, priority: 20}
+            {fromId: spawnId,      toIdArr: energySourcesIdArr, priority: 10},
+            {fromId: controllerId, toIdArr: energySourcesIdArr, priority: 20}
         ]);
     }
 }

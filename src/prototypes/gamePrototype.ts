@@ -3,7 +3,7 @@
 export class gamePrototype {
     public static initialize() {
         Object.assign(Game, {
-            ownedRooms: function(): { [roomName: string]: Room } {
+            ownedRooms: function (): { [roomName: string]: Room } {
                 let roomsList: { [roomName: string]: Room } = Game.rooms;
                 let ownedRooms: { [roomName: string]: Room } = {};
 

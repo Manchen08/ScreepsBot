@@ -1,6 +1,7 @@
 /// <reference path="../_references.ts" />
 import {roomLevel1} from '../objectives/roomLevel1';
 import {roomLevel2} from '../objectives/roomLevel2';
+import {timerClass} from "../classes/timerClass";
 
 export class objectivesController {
 
@@ -10,6 +11,12 @@ export class objectivesController {
     };
 
     public pursueRoomLevel(roomName: string, roomLevel: number) {
+        var roomTimer = new timerClass();
+        roomTimer.start();
+
         new this.roomObjectives[roomLevel](roomName);
+
+        roomTimer.end();
+        console.log(roomName+';LVL'+roomLevel+': '+roomTimer.result()+'ms');
     }
 }
