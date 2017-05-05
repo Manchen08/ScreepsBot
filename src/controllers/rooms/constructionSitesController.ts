@@ -69,14 +69,11 @@ export class constructionSitesController {
     private static pathIsRoads(roomName: string, serializedPath: string): boolean {
         let pathArr: PathStep[] = Room.deserializePath(serializedPath);
 
-        console.log('patharr: '+pathArr);
-
-        let testingPath: boolean = pathArr.every((path: PathStep) => {
-            console.log(Game.rooms[roomName].lookForAt(STRUCTURE_ROAD, path.x, path.y));
-            return <any>Game.rooms[roomName].lookForAt(STRUCTURE_ROAD, path.x, path.y) != -10;
+        let roadsOnPath: PathStep[] = pathArr.filter((path: PathStep) => {
+            let lookForAt: Structure = <Structure>Game.rooms[roomName].lookForAt(LOOK_STRUCTURES, path.x, path.y)[0];
+            return (lookForAt && lookForAt.structureType == 'road');
         });
-        console.log('This path has all roads? : ' + testingPath);
 
-        return testingPath;
+        return roadsOnPath.length >= pathArr.length-2; // To/From
     }
 }
