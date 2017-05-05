@@ -1,16 +1,20 @@
 /// <reference path="../_references.ts" />
 
 export class timerClass {
+    private performanceAPI: boolean = false;
     private startTime: number;
     private endTime: number;
 
     public start(): number {
-        this.startTime = performance.now();
+        if (typeof performance === "object" && typeof performance.now === "function")
+            this.performanceAPI = true;
+
+        this.startTime = this.performanceAPI ? performance.now() : Date.now();
         return this.startTime;
     }
 
     public end(): number {
-        this.endTime = performance.now();
+        this.endTime = this.performanceAPI ? performance.now() : Date.now();
         return this.endTime;
     }
 
@@ -20,7 +24,7 @@ export class timerClass {
 
         let result: number = this.endTime - this.startTime;
 
-        if (roundToMs)
+        if (roundToMs && this.performanceAPI)
             result = Math.round(result);
 
         return result;
