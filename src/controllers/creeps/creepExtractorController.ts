@@ -3,6 +3,7 @@ import {LoDashImplicitObjectWrapper, LoDashStatic} from "lodash";
 import {roomClass} from "../../classes/rooms/roomClass";
 import {config} from "../../config";
 import {creepEnergySourceMemory} from "../../interfaces/memory/creeps/creepEnergySourceMemory";
+import {timerClass} from "../../classes/timerClass";
 declare const _: LoDashStatic;
 
 export class creepExtractorController {
@@ -29,6 +30,8 @@ export class creepExtractorController {
         }
 
         if (creepCarryAmount >= creep.carryCapacity) {
+            var disTimer = new timerClass();
+            disTimer.start();
             creepExtractorController.distributeEnergy(creep);
         }
     }

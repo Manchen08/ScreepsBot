@@ -17,6 +17,6 @@ export class objectivesController {
         new this.roomObjectives[roomLevel](roomName);
 
         roomTimer.end();
-        console.log(roomName+';LVL'+roomLevel+': '+roomTimer.result()+'ms');
+        roomTimer.watchdog(25, (t: number) => 'this.roomObjectives['+roomLevel+']['+roomName+']: '+t+'ms');
     }
 }

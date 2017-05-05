@@ -4,12 +4,12 @@ import {creepsController}               from "../controllers/creepsController";
 import {spawnsController}               from "../controllers/spawns/spawnsController";
 import {terrainEnergySourcesMemory}     from "../interfaces/memory/rooms/terrainEnergySourcesMemory";
 
-export class roomLevel2 {
+export class roomLevel3 {
     public constructor(roomName: string) {
         spawnsController.initialize(roomName, [
             {type: CREEP_EXTRACTOR,     min: 2, priority: 10},
-            {type: CREEP_BUILDER,       min: 2, priority: 45},
-            {type: CREEP_UPGRADER,      min: 3, priority: 30},
+            {type: CREEP_BUILDER,       min: 1, priority: 45},
+            {type: CREEP_UPGRADER,      min: 4, priority: 30},
             {type: CREEP_SPAWN_CARRIER, min: 1, priority: 15},
             {type: CREEP_TOWER_CARRIER, min: 0, priority: 0}
         ]);
@@ -18,6 +18,8 @@ export class roomLevel2 {
     }
 
     private constructionSites(roomName: string): void {
+        let spawnId: string = Memory.rooms[roomName].structures.spawns[0].id;
+        let controllerId: string = Memory.rooms[roomName].structures.controller.id;
         let energySources: {[objectId: string]: terrainEnergySourcesMemory} = Memory.rooms[roomName].terrain.energySources;
         let energySourcesIdArr: string[] = [];
 
@@ -26,8 +28,8 @@ export class roomLevel2 {
         }
 
         constructionSitesController.constructPaths(roomName, [
-            {fromId: Memory.rooms[roomName].structures.spawns[0].id,  toIdArr: energySourcesIdArr, priority: 10},
-            {fromId: Memory.rooms[roomName].structures.controller.id, toIdArr: energySourcesIdArr, priority: 20}
+            {fromId: spawnId,      toIdArr: energySourcesIdArr, priority: 10},
+            {fromId: controllerId, toIdArr: energySourcesIdArr, priority: 20}
         ]);
     }
 }

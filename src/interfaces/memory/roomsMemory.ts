@@ -6,7 +6,6 @@ import {structurePathMemory} from "./rooms/structurePathMemory";
 import {spawnDataMemory} from "./rooms/spawnDataMemory";
 
 export interface roomsMemory {
-    constructionSites: {id: string, structureType: string, x: number, y: number}[],
     creepsCount: {[type: string]: number},
     structurePaths: structurePathMemory[],
     terrain: Terrain,
